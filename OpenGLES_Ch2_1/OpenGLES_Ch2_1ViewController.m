@@ -66,15 +66,15 @@ static const SceneVertex vertices[] =
     //生成缓存
    glGenBuffers(1,                // STEP 1
       &vertexBufferID);
-    //告诉OpenGL接下来的运算使用一个缓存
+    //告诉OpenGL当前使用那个缓存,绑定缓存
    glBindBuffer(GL_ARRAY_BUFFER,  // STEP 2
       vertexBufferID);
-    //为当前绑定的缓存分配内存
+    //为当前绑定的缓存分配内存,复制数据到缓存中
    glBufferData(                  // STEP 3
       GL_ARRAY_BUFFER,  // Initialize buffer contents
       sizeof(vertices), // Number of bytes to copy
       vertices,         // Address of bytes to copy
-      GL_STATIC_DRAW);  // Hint: cache in GPU memory
+      GL_STATIC_DRAW);  // Hint: cache in GPU memory,静态缓存
 }
 
 
@@ -90,24 +90,24 @@ static const SceneVertex vertices[] =
    // Clear Frame Buffer (erase previous drawing)
    glClear(GL_COLOR_BUFFER_BIT);
    
-   // Enable use of positions from bound vertex buffer
+   // Enable use of positions from bound vertex buffer,启动
    glEnableVertexAttribArray(      // STEP 4
       GLKVertexAttribPosition);
       
-   glVertexAttribPointer(          // STEP 5
-      GLKVertexAttribPosition, 
+   glVertexAttribPointer(          // STEP 5,设置指针
+      GLKVertexAttribPosition, //指定缓存
       3,                   // three components per vertex
       GL_FLOAT,            // data is floating point
       GL_FALSE,            // no fixed point scaling
-      sizeof(SceneVertex), // no gaps in data
+      sizeof(SceneVertex), // no gaps in data,步幅
       NULL);               // NULL tells GPU to start at 
                            // beginning of bound buffer
                                    
-   // Draw triangles using the first three vertices in the 
+   // Draw triangles using the first three vertices in the ,绘图
    // currently bound vertex buffer
-   glDrawArrays(GL_TRIANGLES,      // STEP 6
-      0,  // Start with first vertex in currently bound buffer
-      3); // Use three vertices from currently bound buffer
+   glDrawArrays(GL_TRIANGLES,      // STEP 6,如何处理绑定的顶点缓存内的顶点数据
+      0,  // Start with first vertex in currently bound buffer,需要渲染第一个顶点的位置
+      3); // Use three vertices from currently bound buffer,顶点的总数
 }
 
 
